@@ -8,11 +8,13 @@ const prisma = new PrismaClient();
 
 // Create Tweet
 router.post('/', async (req, res) => {
-    try{const {content, image, userId} = req.body;
-
+    const {content, image} = req.body;
+    // @ts-ignore
+    const user = req.user;
+    try{
     const result = await prisma.tweet.create({
         data:{
-            content,image, userId
+            content,image, userId: user.id,
         }
     })
     res.json(result);
